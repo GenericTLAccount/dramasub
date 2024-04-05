@@ -2,7 +2,12 @@
 
 A tool for auto-generating visuals for a video based off of an `.ass` subtitle file. Intended for creating visual novel-style visual accompaniments for audio-only content, such as drama CDs.
 
-### Requirements:
+### Installation and Requirements:
+
+Dramasub can be installed via:
+
+`pip install dramasub`
+
 Requires [FFmpeg](https://ffmpeg.org/) to be installed and for both `ffmpeg` and `ffprobe` configured in PATH. Also requires the [Wand Python bindings](https://docs.wand-py.org/), which requires ImageMagick; please see the Wand documentation for installation instructions.
 
 Has only been tested with Windows, but may work on other platforms.
