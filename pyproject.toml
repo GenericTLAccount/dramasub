@@ -16,6 +16,9 @@ classifiers = [
     "Operating System :: Microsoft :: Windows :: Windows 11",
 ]
 
+[project.urls]
+Homepage = "https://github.com/GenericTLAccount/dramasub"
+
 [project.scripts]	# this is required for setting up command line args in modern python, setup.py is outdated
 dramasub = "dramasub.dramasub:main"
 
