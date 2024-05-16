@@ -25,14 +25,14 @@ config = {
             "pointsize": 33,            # font size
             "kerning": 2,               # OPTIONAL
             # "alignment": "left",      # OPTIONAL; defaults to "left" if omitted, otherwise must be "left", "center", or "right"
-            "position_x": 366,          # number of pixels of top left of text from left side of screen
-            "position_y": 896,          # number of pixels from top of screen
+            "position_x": 366,          # number of pixels text is from left side of screen
+            "position_y": 896,          # number of pixels text is from top of screen
         },
         # "example_additional_font_style": {
         #   "font": r"path_to_font",
         #   "fill": "#FFFFFF"
         #   "pointsize": 8,
-        #   "position_x": 0
+        #   "position_x": 0,
         #   "position_y": 0
         # }
     },
@@ -45,7 +45,12 @@ config = {
         # "name_in_actor_field": {
         #   "my_image_layer": {
         #       "type": "img",
-        #       "value": r"absolute\path\to\image.png"  # drawn at top left, so should be same resolution as video
+        #       "value": r"absolute\path\to\image.png",
+        #       "position_x": 0,    # OPTIONAL; defaults to 0 if omitted; number of pixels image is from left side of screen
+        #       "position_y": 0,    # OPTIONAL; defaults to 0 if omitted; number of pixels image is from top of screen
+                                    # for one-off images, manual placement by having the image be the video's resolution is recommended (no offset)
+                                    # this is mostly for reusing the same image in multiple positions via effects
+
         #   },
         #   "my_text_layer": {
         #       "type": "txt",

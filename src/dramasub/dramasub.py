@@ -91,10 +91,35 @@ def parse_font(font_name):
     return [font,fill,pointsize,kerning,align,posx,posy]
 
 
-def layer_img2img(top_img, base_img, output_path):
+def parse_img_offset(img_layer, act_eff_str):
+    offset_x = 0
+    offset_y = 0
+    if "position_x" in img_layer:
+        try:
+            offset_x = int(img_layer["position_x"])
+        except:
+            print("Error: an image layer in " + act_eff_str + " has invalid x or y position set!")
+            sys.exit(1)
+    if "position_y" in img_layer:
+        try:
+            offset_y = int(img_layer["position_x"])
+        except:
+            print("Error: an image layer in " + act_eff_str + " has invalid x or y position set!")
+            sys.exit(1)
+    return [offset_x, offset_y]
+
+
+def layer_img2img(top_img, offset_x, offset_y, base_img, output_path):
     with Image(filename=base_img) as base:
         with Image(filename=top_img) as top:
-            base.composite(top)
+            base.composite(top, offset_x, offset_y)
+        base.save(filename=output_path)
+
+
+def layer_img2blank(top_img, offset_x, offset_y, res_w, res_h, output_path):
+    with Image(width=res_w, height=res_h) as base:
+        with Image(filename=top_img) as top:
+            base.composite(top, offset_x, offset_y)
         base.save(filename=output_path)
 
 
@@ -130,7 +155,9 @@ def cook(actor_dict,act_eff_str,stack,res_w,res_h):
                     curr_type = curr_layer["type"]
                     if cook_on_stack:
                         if curr_type == "img":
-                            layer_img2img(curr_layer["value"], curr_output, curr_output)
+                            [offset_x, offset_y] = parse_img_offset(curr_layer, act_eff_str)
+                            layer_img2img(curr_layer["value"], offset_x, offset_y, curr_output, \
+                                           curr_output)
                             last_eff = "img"
                             has_cooked = True
                         elif curr_type == "txt":
@@ -150,13 +177,21 @@ def cook(actor_dict,act_eff_str,stack,res_w,res_h):
                                 "img", "txt", or "ff"!')
                             sys.exit(1)
                     else:
-                        if curr_type == "img" and stack_len == 1:
-                            cooked_list.append(curr_layer["value"])
-                            last_eff = "img"
-                        elif curr_type == "img":    # probably shouldn't do this but lazy
-                            shutil.copyfile(curr_layer["value"], curr_output)
-                            last_eff = "img"
-                            has_cooked = True
+                        if curr_type == "img":
+                            if "position_x" or "position_y" in curr_layer:
+                                [offset_x, offset_y] = parse_img_offset(curr_layer, act_eff_str)
+                                layer_img2blank(curr_layer["value"], offset_x, offset_y, res_w, res_h, \
+                                                curr_output)
+                                last_eff = "img"
+                                has_cooked = True
+                            else:
+                                if stack_len == 1:
+                                    cooked_list.append(curr_layer["value"])
+                                    last_eff = "img"
+                                else:    # probably shouldn't do this but lazy
+                                    shutil.copyfile(curr_layer["value"], curr_output)
+                                    last_eff = "img"
+                                    has_cooked = True
                         elif curr_type == "ff":
                             cooked_list.append(curr_layer["ff"])
                             last_eff = "ff"
