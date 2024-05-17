@@ -98,13 +98,15 @@ def parse_img_offset(img_layer, act_eff_str):
         try:
             offset_x = int(img_layer["position_x"])
         except:
-            print("Error: an image layer in " + act_eff_str + " has invalid x or y position set!")
+            print("Error: an image layer in " + act_eff_str + " has invalid x position set!")
+            print('Invalid position of "' + str(img_layer["position_x"]) + '"!')
             sys.exit(1)
     if "position_y" in img_layer:
         try:
-            offset_y = int(img_layer["position_x"])
+            offset_y = int(img_layer["position_y"])
         except:
-            print("Error: an image layer in " + act_eff_str + " has invalid x or y position set!")
+            print("Error: an image layer in " + act_eff_str + " has invalid y position set!")
+            print('Invalid position of "' + str(img_layer["position_y"]) + '"!')
             sys.exit(1)
     return [offset_x, offset_y]
 
@@ -178,8 +180,8 @@ def cook(actor_dict,act_eff_str,stack,res_w,res_h):
                             sys.exit(1)
                     else:
                         if curr_type == "img":
-                            if "position_x" or "position_y" in curr_layer:
-                                [offset_x, offset_y] = parse_img_offset(curr_layer, act_eff_str)
+                            [offset_x, offset_y] = parse_img_offset(curr_layer, act_eff_str)
+                            if offset_x != 0 or offset_y != 0:
                                 layer_img2blank(curr_layer["value"], offset_x, offset_y, res_w, res_h, \
                                                 curr_output)
                                 last_eff = "img"
