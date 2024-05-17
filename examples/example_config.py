@@ -1,3 +1,8 @@
+# do need some minor python knowledge to set up a proper config, as it's just a large nested dict and some other variables
+# (fairly easy to learn, so don't be intimidated if you're not familiar with python)
+
+# example's kind of a mess, need to split this up into multiple example files with different use cases
+
 config = {
 
     # example of a reference dict
@@ -46,10 +51,11 @@ config = {
         #   "my_image_layer": {
         #       "type": "img",
         #       "value": r"absolute\path\to\image.png",
-        #       "position_x": 0,    # OPTIONAL; defaults to 0 if omitted; number of pixels image is from left side of screen
-        #       "position_y": 0,    # OPTIONAL; defaults to 0 if omitted; number of pixels image is from top of screen
-                                    # for one-off images, manual placement by having the image be the video's resolution is recommended (no offset)
-                                    # this is mostly for reusing the same image in multiple positions via effects
+        #       "position_x": 366,  # OPTIONAL, CONVERTED TO INT; number of pixels image is from left side of screen, defaults to 0 if omitted
+        #       "position_y": 896,  # OPTIONAL, CONVERTED TO INT; defaults to 0 if omitted; number of pixels image is from top of screen
+                                    # omitting this is recommended for images you're going to keep in the same location (static portraits)
+                                    # instead, create an image that's the video res (i.e. 1920x1080) with the image positioned accordingly
+                                    # this is mostly for reusing the same image in multiple positions via effects (see below)
 
         #   },
         #   "my_text_layer": {
@@ -122,6 +128,10 @@ config = {
     # is additive, like how actors are to "%Default"
     # basically, layers are taken from "%Default", layer values are overridden by the defined actor, and are then overridden by the defined effect
     "effect": {
+        # "Top": {  # example for offset use; image is in middle by default but moved to top/bottom if needed when multiple characters are talking
+        #   "portrait": {"position_y": 174}
+                # note how you can adjust position by only changing the value of one axis, don't need to set both x and y
+        # }
         "DefaultBG": {
             "bg": "default"
         },
