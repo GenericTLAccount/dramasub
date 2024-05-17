@@ -1,6 +1,6 @@
 # Dramasub
 
-A tool for auto-generating visuals for a video based off of an `.ass` subtitle file. Intended to be used to create visual novel-style visual accompaniments for audio-only content, such as drama CDs, but can been used to translate longplay footage of visual novels with some effort.
+A tool for auto-generating visuals for a video based off of an `.ass` subtitle file. Intended to be used to create visual novel-style visual accompaniments for audio-only content, such as drama CDs, but has been used to translate longplay footage of visual novels with some extra effort.
 
 ### Installation and Requirements:
 
